@@ -1,11 +1,15 @@
 # new-tool-every-week
 Jack of all trades, master of none but oftentimes better than a master of one.
 
-Idea of this repo is to learn a bit about a lot of tools every week. I'll be mostly using Java but might add an extra language 
+Idea of this repo is to learn a bit about a lot of tools every week. I'll be mostly using Java but might add an extra language. 
 
-# In Progress (week1) — Debezium https://debezium.io
+All projects will have a dedicated readme.md inside. + An overview of what I managed to achieve in a week on this page. 
 
-project: `week1-debezium`
+# In Progress (week1) — Debezium
+
+https://microservices.io/patterns/data/transactional-outbox.html
+
+project: `week1-debezium`. [Navigate](/week1-debezium)
 
 # Plans
 
