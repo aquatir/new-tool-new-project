@@ -43,9 +43,9 @@ mentioned in [FAQ](https://debezium.io/documentation/faq/) for PostgreSQL [Write
 which re-links a user to [this page](https://debezium.io/documentation/reference/1.0/connectors/postgresql.html#wal-disk-space).
 
 The good thing: the problem IS mentioned. The bad thing: this issue shows how much coupling Debezium creates between 
-Kafka and your database. It needs the Write-Ahead Log (WAL) to operate. And Databases generally don't give you any 
+Kafka and your database. It needs the Write-Ahead Log (WAL) to operate. And databases generally don't give you any 
 promises as to how the work with their WAL. At current implementation (11.12.2022) it seems that Debezium acts as a 
 log-replica for PostgreSQL by creating itself in `pg_replication_slots` (what's [PG replication slots](https://www.postgresql.org/docs/9.4/warm-standby.html#STREAMING-REPLICATION-SLOTS)). This means that the network lags between Debezium and Kafka *might* have an effect 
-on you PostgreSQL instance which a bit worrying from design perspective. I probably don't want two of the most important 
+on you PostgreSQL instance which is a bit worrying from design perspective. I probably don't want two of the most important 
 pieces of my infrastructure — database and messaging system to be couples whatsoever. But I'm just an old man yelling at 
 the cloud. 
