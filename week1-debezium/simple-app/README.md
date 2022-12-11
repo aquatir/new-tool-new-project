@@ -1,6 +1,6 @@
 # Java simple app
 
-Part 1: Running the same config as in [intro.md](intro.md) only in docker-compose now + applying a listener.
+Part 1: Running the same config as in [intro.md](../docs/intro.md) only in docker-compose now + applying a listener.
 
 Part 2: Running a Java app that will publish and read debezium events.
 
