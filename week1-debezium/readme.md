@@ -18,10 +18,11 @@ A Change Data Capture (CDC) tool build on top of Apache Kafka.
 
 ### Links
 
-- [intro.md](./docs/intro.md). Setting up `Zookeeper`, `Kafka`, `MySQL` and `KafkaConnect` to database via command line
+- [intro.md](./intro/README.md). Setting up `Zookeeper`, `Kafka`, `MySQL` and `KafkaConnect` to database via command line
   in multiple terminals.
-- [java-simple-app.md](./docs/java-simple-app.md). *WORK IN PROGRESS*: Java application with `docker compose` setup for
-  debezium. It uses listener to read debezium events to update it's internal state.
+- [java-simple-app.md](./simple-app/README.md). Java application with `docker compose` setup for debezium. It uses 
+kafka consumer to read debezium events. You'd have to provide these events manually by executing SQL queries. 
+The app has numerous comments describing pitfalls while using debezium.
 - [java-app-outbox.md](./docs/java-app-outbox.md). *WORK IN PROGRESS*: Java application with `docker compose` setup for
   debezium that exposes two apps: one produces events using outbox pattern and another reads those events. Uses
   persistent storage for database and kafka

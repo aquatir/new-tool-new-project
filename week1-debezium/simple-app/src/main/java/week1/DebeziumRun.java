@@ -20,10 +20,13 @@ public class DebeziumRun {
     private static final Logger log = LoggerFactory.getLogger("DebeziumRun");
 
     public static void main(String[] args) {
+        // Configure + launch kafka consumer
         executor.execute(DebeziumRun::kafkaConsumer);
     }
 
     private static void kafkaConsumer() {
+
+        // Generic consumer configuration. No debezium specific info here.
         var config = new Properties();
         config.put(ConsumerConfig.CLIENT_ID_CONFIG, "client-1");
         config.put(ConsumerConfig.GROUP_ID_CONFIG, "inventory-consumer");
@@ -32,6 +35,8 @@ public class DebeziumRun {
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
         var consumer = new KafkaConsumer<String, String>(config);
 
+        // Depending on configuration, topic names could either be generated automatically, have or not have a prefix (dbserver in this case)
+        // or manually.
         consumer.subscribe(List.of("dbserver1.inventory.customers"));
         while (true) {
             var records = consumer.poll(Duration.of(10, ChronoUnit.SECONDS));
@@ -47,16 +52,24 @@ public class DebeziumRun {
     private static void process(ConsumerRecords<String, String> kafkaRecords) {
         System.out.println("received '" + kafkaRecords.count() + "' records");
         for (var kafkaRecord : kafkaRecords) {
-            if (kafkaRecord == null) {
+
+            System.out.println("received a record partition: '" + kafkaRecord.partition() + "' offset: '" + kafkaRecord.offset() + "'");
+
+            // Debezium will send a Kafka Message with ID, but without value. This only happens if a record is deleted
+            // from the database. When a record is deleted you get two events: first with "after" == null (because it was
+            // deleted) + this "special" message without value. The messages without value serve as tombstones for
+            // compacted topic. This example uses automatic topic generation, so all topics are compacted.
+            // For more info on compacted topics read here: https://kafka.apache.org/documentation/#compaction
+            if (kafkaRecord.value() == null) {
                 System.out.println("received a null record. Skipping");
                 continue;
             }
-            System.out.println("received a record partition: '" + kafkaRecord.partition() + "' offset: '" + kafkaRecord.offset() + "'");
-            if (kafkaRecord.value() == null) {
-                System.out.println("received a record without value. Skipping");
-                continue;
-            }
+
             var recordAsJson = new JSONObject(kafkaRecord.value());
+
+            // By default, a value have two json objects: "schema" which serve as json schema (https://json-schema.org) and "payload".
+            // The payload contains a lot of different information such as what's the source of message, what is the operation
+            // and most importantly the "before" and "after" records for a row.
             var payload = recordAsJson.getJSONObject("payload");
             var operation = payload.getString("op");
             var operationAsString = switch (operation) {
@@ -71,12 +84,14 @@ public class DebeziumRun {
             var before = payload.get("before");
             var after = payload.get("after");
 
+            // For "c" — CREATE records "before" will be empty, because they were just created.
             if (before == null) {
                 System.out.println("object before: not present");
             } else {
                 System.out.println("object before: " + before);
             }
 
+            // For "d" — DELETE records "after" will be empty, because they were just deleted.
             if (after == null) {
                 System.out.println("object after: not present");
             } else {

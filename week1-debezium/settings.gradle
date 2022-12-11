@@ -1,3 +1,4 @@
 rootProject.name = 'week1-debezium'
 include 'simple-app'
+include 'intro'
 
