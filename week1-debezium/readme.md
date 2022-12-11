@@ -16,8 +16,35 @@ A Change Data Capture (CDC) tool build on top of Apache Kafka.
 
 ### Links
 
-- [intro.md](./intro/README.md). Setting up `Zookeeper`, `Kafka`, `MySQL` and `KafkaConnect` to database via command line
+- [intro.md](./intro). Setting up `Zookeeper`, `Kafka`, `MySQL` and `KafkaConnect` to database via command line
   in multiple terminals.
-- [java-simple-app.md](./simple-app/README.md). Java application with `docker compose` setup for debezium. It uses 
+- [java-simple-app.md](./simple-app). Java application with `docker compose` setup for debezium. It uses 
 kafka consumer to read debezium events. You'd have to provide these events manually by executing SQL queries. 
 The app has numerous comments describing pitfalls while using debezium.
+
+
+## Conclusion
+
+*DISCLAIMER*: I write this chapter in the end of a week to summarize my learning about a new tool. This is heavily biased
+opinion, and you should do your own research for any practical case. 
+
+Debezium is a pretty cool tool. It was easy *enough* to set up. I mostly struggled with setting up Kafka in docker-compose
+[example](./simple-app). It is quite hard to find what all those `quay.io/debezium/*` images do in terms of setting up. 
+At least I didn't find any links to images' Dockerfiles in the [official tutorial](https://debezium.io/documentation/reference/2.0/tutorial.html). 
+In any case, after a few hours it works like magic: everything is auto-generated, makes sense and *just works*.
+
+They have quite a lot of wonderful examples such at [outbox patter in github](https://github.com/debezium/debezium-examples/tree/main/outbox)
+with [accompanying page in documentation](https://debezium.io/documentation/reference/stable/transformations/outbox-event-router.html) 
+for further configs. The whole [examples](https://github.com/debezium/debezium-examples) repo is worth checking out.
+
+There are however certain concerns I have that I'd need to look over before using Debezium in production. Specifically the ones
+mentioned in [FAQ](https://debezium.io/documentation/faq/) for PostgreSQL [Write-Ahead Log (WAL) issue](https://debezium.io/documentation/faq/#why_debezium_postgresql_connector_causes_abnormal_consumption_of_wal_database_disk_space)
+which re-links a user to [this page](https://debezium.io/documentation/reference/1.0/connectors/postgresql.html#wal-disk-space).
+
+The good thing: the problem IS mentioned. The bad thing: this issue shows how much coupling Debezium creates between 
+Kafka and your database. It needs the Write-Ahead Log (WAL) to operate. And Databases generally don't give you any 
+promises as to how the work with their WAL. At current implementation (11.12.2022) it seems that Debezium acts as a 
+log-replica for PostgreSQL by creating itself in `pg_replication_slots` (what's [PG replication slots](https://www.postgresql.org/docs/9.4/warm-standby.html#STREAMING-REPLICATION-SLOTS)). This means that the network lags between Debezium and Kafka *might* have an effect 
+on you PostgreSQL instance which a bit worrying from design perspective. I probably don't want two of the most important 
+pieces of my infrastructure — database and messaging system to be couples whatsoever. But I'm just an old man yelling at 
+the cloud. 
