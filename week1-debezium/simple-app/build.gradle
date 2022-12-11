@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "application"
 }
 
 group 'learn.week1'
@@ -22,4 +23,9 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+apply plugin : "java"
+application {
+    mainClassName = "week1.DebeziumRun"
 }
