@@ -14,7 +14,6 @@ services:
       - zookeeper
     environment:
       - ZOOKEEPER_CONNECT=zookeeper:2181
-#      - KAFKA_LISTENERS=PLAINTEXT://localhost:9092
       - KAFKA_LISTENERS=INTERNAL://kafka:29092,EXTERNAL://kafka:9092
       - KAFKA_ADVERTISED_LISTENERS=INTERNAL://kafka:29092,EXTERNAL://localhost:9092
       - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
@@ -34,7 +33,7 @@ services:
       - kafka
       - postgres
     environment:
-      - BOOTSTRAP_SERVERS=localhost:9092
+      - BOOTSTRAP_SERVERS=kafka:29092 # connect is inside docker network => must use internal listener
       - GROUP_ID=1
       - CONFIG_STORAGE_TOPIC=my_connect_configs
       - OFFSET_STORAGE_TOPIC=my_connect_offsets
