@@ -16,22 +16,23 @@ A Change Data Capture (CDC) tool build on top of Apache Kafka.
 
 ### Links
 
-- [intro.md](./intro). Setting up `Zookeeper`, `Kafka`, `MySQL` and `KafkaConnect` to database via command line
-  in multiple terminals.
-- [java-simple-app.md](./simple-app). Java application with `docker compose` setup for debezium. It uses 
+- [intro](./intro). Setting up `Zookeeper`, `Kafka`, `MySQL` and `Debezium` to database via command line
+  in multiple terminals. Follow official tutorial.
+- [java-simple-app](./simple-app). Java application with `docker compose` setup for debezium. It uses 
 kafka consumer to read debezium events. You'd have to provide these events manually by executing SQL queries. 
 The app has numerous comments describing pitfalls while using debezium.
 
 
 ## Conclusion
 
-*DISCLAIMER*: I write this chapter in the end of a week to summarize my learning about a new tool. This is heavily biased
+**DISCLAIMER**: I write this chapter in the end of a week to summarize my learning about a new tool. This is heavily biased
 opinion, and you should do your own research for any practical case. 
 
 Debezium is a pretty cool tool. It was easy *enough* to set up. I mostly struggled with setting up Kafka in docker-compose
 [example](./simple-app). It is quite hard to find what all those `quay.io/debezium/*` images do in terms of setting up. 
 At least I didn't find any links to images' Dockerfiles in the [official tutorial](https://debezium.io/documentation/reference/2.0/tutorial.html). 
-In any case, after a few hours it works like magic: everything is auto-generated, makes sense and *just works*.
+In any case, after a few hours it works like magic: everything is auto-generated, makes sense and *just works*. If you're 
+already using Kafka, Debezium might be a great addition to your toolkit. 
 
 They have quite a lot of wonderful examples such at [outbox patter in github](https://github.com/debezium/debezium-examples/tree/main/outbox)
 with [accompanying page in documentation](https://debezium.io/documentation/reference/stable/transformations/outbox-event-router.html) 
