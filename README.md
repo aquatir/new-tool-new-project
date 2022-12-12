@@ -8,9 +8,9 @@ language.
 All projects will have a dedicated readme.md inside + an overview of what I managed to achieve in a week. Navigate to
 any project to see for yourself.
 
-# In Progress (week1) — Debezium
+# In Progress (week 2) — PGQ
 
-project: Debezium [Navigate to page](/week1-debezium)
+project: PGQ [Navigate to page](/week2-pgq)
 
 # Facts
 
