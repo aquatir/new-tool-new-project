@@ -8,15 +8,16 @@ language.
 All projects will have a dedicated readme.md inside + an overview of what I managed to achieve in a week. Navigate to
 any project to see for yourself.
 
-# In Progress (week 2) — PGQ
+# In Progress (week 2) — Terraform
 
-project: PGQ [Navigate to page](/week2-pgq)
+project: Terraform [Navigate to page](/week2-terraform)
 
 # Facts
 
 The older things I've competed. This list grows from newest to oldest.
 
-- week 1 — [Debezium](/week1-debezium)
+- week 2 — [pgq](/week2-pgq). My failed attempt to even install PGQ :D
+- week 1 — [Debezium](/week1-debezium). Docker compose setup + Java app to read topics
 
 # Plans
 
@@ -24,9 +25,9 @@ The next few project I'd like to tackle.
 
 ## Plan 2022
 
-- week 2 (12.12.2022 — 18.12.2022): PGQ https://wiki.postgresql.org/wiki/PGQ_Tutorial
-- week 3 (19.12.2022 — 25.12.2022): Terraform https://www.terraform.io
-- week 4 (26.12.2022 — 01.01.2023): Apache Cassandra https://cassandra.apache.org/_/index.html
+- week 2 (12.12.2022 — 18.12.2022): [PGQ](https://wiki.postgresql.org/wiki/PGQ_Tutorial) & [Terraform](https://www.terraform.io)
+- week 3 (19.12.2022 — 25.12.2022): Apache Cassandra https://cassandra.apache.org/_/index.html
+- week 4 (26.12.2022 — 01.01.2023): Setting up PostgreSQL leader + 2 read replicas + failover between them with Patroni
 
 ## Plan 2023
 
@@ -36,7 +37,6 @@ The next few project I'd like to tackle.
 In no particular order:
 
 - Rust language
-- Setting up postgreSQL master + 2 read replicas + failover between them with different tools
 - k9s
 - Quarkus
 - The course of Go + Map Reduce Lab from [MIT 6.824](https://pdos.csail.mit.edu/6.824/).
