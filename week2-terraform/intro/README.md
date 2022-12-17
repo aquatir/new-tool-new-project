@@ -18,8 +18,27 @@ run
 terraform init
 ```
 
-That will download a terraform plug to interract with Docker. After that you only need to execute
+That will download a Terraform plug to interact with Docker. After that you only need to execute
+
+```shell
+terraform plan
+```
+
+to see what Terraform wants to do and then 
 
 ```shell
 terraform apply
 ```
+
+TF will ask you if you really want to apply the changes, and if you say **yes** you must see a nginx container running and
+exposing port 8000 with `docker ps`. You may now open `http://localhost:8000` to see default nginx page.
+
+The last step is to destroy this configuration
+
+```shell
+terraform destroy
+```
+
+don't forget to say **yes** when prompted again.
+
+## 
