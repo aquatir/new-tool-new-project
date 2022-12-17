@@ -1,6 +1,6 @@
 # Terraform
 
-A tool + language for infrastructure automation
+A tool + language to enable infrastructure as code.
 
 ## Links
 
