@@ -12,6 +12,8 @@ terraform init
 echo yes | terraform apply
 ```
 
+## Updating config
+
 Now update nginx in `main.tf` to expose port `8080` `external = 8000 -> external = 8080`  and run
 
 ```shell
@@ -46,3 +48,18 @@ line in console
 docker_container.nginx will be destroyed
 docker_image.nginx will be destroyed
 ```
+
+## Using values
+
+You can manage variables by either creating them in existing file or in new file such as `variables.tf`. The file name 
+doesn't matter, terraform is only looking for `.tf` file extension.
+
+Now update the name in `main.tf` file `name = tutorial =>  name  = var.container_name` and run TF `terraform apply`.
+
+You can override this name by providing the value when running terraform apply. Try running
+
+```shell
+terraform apply -var "container_name=YetAnotherName"
+```
+
+and observe that the container's name is chagned now.
