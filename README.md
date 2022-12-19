@@ -3,10 +3,10 @@
 Jack of all trades, master of none but oftentimes better than a master of one.
 
 Idea of this repo is to learn a bit about a lot of tools every week. I'll be mostly using Java but might add an extra
-language.
+language. 
 
-All projects will have a dedicated readme.md inside + an overview of what I managed to achieve in a week. Navigate to
-any project to see for yourself.
+All projects will have a dedicated readme.md inside + an overview of what I managed to achieve in a week. Those will mostly 
+include official tutorials ¯\_(ツ)_/¯. Navigate to any project to see for yourself.
 
 # In Progress (week 2) — Terraform
 
@@ -25,7 +25,6 @@ The next few project I'd like to tackle.
 
 ## Plan 2022
 
-- week 2 (12.12.2022 — 18.12.2022): [PGQ](https://wiki.postgresql.org/wiki/PGQ_Tutorial) & [Terraform](https://www.terraform.io)
 - week 3 (19.12.2022 — 25.12.2022): Apache Cassandra https://cassandra.apache.org/_/index.html
 - week 4 (26.12.2022 — 01.01.2023): Setting up PostgreSQL leader + 2 read replicas + failover between them with Patroni
 
