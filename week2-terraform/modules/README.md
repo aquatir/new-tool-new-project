@@ -38,6 +38,11 @@ provide their names in the `main.tf` inside the main directory (not the `/module
 `aws-s3-static-website-bucket` now server as config values inside the main file. Also notice that the module does not 
 define `provider` block, because this block is usually defined in the main file.
 
+Another use of modules: see `outputs.tf` in the main directory. It uses `module.website_s3_bucket.name` naming to expose
+an output from the module to the main app.
+
 After you define a new module and use it, you must call `terraform get` to get this module. You can also use `terraform init`
 to do it. The difference between two commands is that the first only installs modules, while the second will also initialize
 backends and install plugins.
+
+
