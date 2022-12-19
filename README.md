@@ -36,6 +36,8 @@ The next few project I'd like to tackle.
 
 In no particular order:
 
-- k9s
-- Quarkus
+- k9s https://k9scli.io
+- Quarkus https://quarkus.io
 - Map Reduce Lab from [MIT 6.824](https://pdos.csail.mit.edu/6.824/).
+- Trie (aka Prefix Trees?) data structure & algorithms using it.
+- ???
