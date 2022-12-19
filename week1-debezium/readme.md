@@ -2,8 +2,6 @@
 
 A Change Data Capture (CDC) tool build on top of Apache Kafka.
 
-## Links
-
 - Web site: https://debezium.io
 - Official tutorial link: https://debezium.io/documentation/reference/2.0/tutorial.html
 

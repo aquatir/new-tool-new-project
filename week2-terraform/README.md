@@ -2,9 +2,7 @@
 
 A tool + language to enable infrastructure as code.
 
-## Links
-
-- Web site: https://www.terraform.io
+Web site: https://www.terraform.io
 
 ## Week 2 — Terraform
 
