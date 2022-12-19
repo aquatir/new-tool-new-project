@@ -45,4 +45,11 @@ After you define a new module and use it, you must call `terraform get` to get t
 to do it. The difference between two commands is that the first only installs modules, while the second will also initialize
 backends and install plugins.
 
+## Further capabilities
 
+Apart from what present here you can also:
+- define multiple properties for your modules using terraform object attributes
+- manage variable values either with default values defined in module or expose the configuration to your client. See
+example of [this + objects here](https://developer.hashicorp.com/terraform/tutorials/modules/module-object-attributes).
+- use sensible configs for sensitive data
+- and many more
