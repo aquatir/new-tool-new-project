@@ -25,4 +25,19 @@ You can find their respective pages in terraform registry ([vpc](https://registr
 
 ## Creating custom module
 
+You create local modules by creating a `modules` directory and putting directory-per-module there. Generally your modules 
+will contain:
+- `main.tf` as the main config file.
+- `variable.tf` for variables.
+- `outputs.tf` for outputs
 
+It's also a good practice to include `LICENCE` and `readme.md` files.
+
+In this case I define an S3 module in `modules/aws-s3-static-website-bucket`, define variable in `variable.tf` and then
+provide their names in the `main.tf` inside the main directory (not the `/modules` one). Notice how the variables from 
+`aws-s3-static-website-bucket` now server as config values inside the main file. Also notice that the module does not 
+define `provider` block, because this block is usually defined in the main file.
+
+After you define a new module and use it, you must call `terraform get` to get this module. You can also use `terraform init`
+to do it. The difference between two commands is that the first only installs modules, while the second will also initialize
+backends and install plugins.

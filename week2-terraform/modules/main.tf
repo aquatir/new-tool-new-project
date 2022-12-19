@@ -41,3 +41,16 @@ module "ec2_instances" {
     Environment = "dev"
   }
 }
+
+
+module "website_s3_bucket" {
+  ## this links a local module
+  source = "./modules/aws-s3-static-website-bucket"
+
+  bucket_name = "pb7684-example-2020-01-15"
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
