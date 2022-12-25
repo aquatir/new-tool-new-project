@@ -26,8 +26,14 @@ public class CassandraRun {
             session.execute("delete from first_keyspace.customers where id in (af7e23d8-742c-4b24-9b6a-1492e8a570c8, 35430e28-e0a5-41cb-aac5-94275f2d9a1f)");
 
             // insert data again
-            session.execute("INSERT INTO first_keyspace.customers(id, first_name, second_name) values (af7e23d8-742c-4b24-9b6a-1492e8a570c8, 'Ivan', 'Ivanov')");
-            session.execute("INSERT INTO first_keyspace.customers(id, first_name, second_name) values (35430e28-e0a5-41cb-aac5-94275f2d9a1f, 'Petr', 'Petrov')");
+            session.execute("""
+                INSERT INTO first_keyspace.customers(id, first_name, second_name)
+                values (af7e23d8-742c-4b24-9b6a-1492e8a570c8, 'Ivan', 'Ivanov')
+                """);
+            session.execute("""
+                INSERT INTO first_keyspace.customers(id, first_name, second_name) 
+                values (35430e28-e0a5-41cb-aac5-94275f2d9a1f, 'Petr', 'Petrov')
+                """);
 
             // return all data from a row in DB
             var rs2 = session.execute("select * from first_keyspace.customers");
