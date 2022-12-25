@@ -39,5 +39,5 @@ In no particular order:
 - Rust language https://www.rust-lang.org
 - Map Reduce Lab from [MIT 6.824](https://pdos.csail.mit.edu/6.824/).
 - Trie (aka Prefix Trees?) data structure & algorithms using it.
-- C++
+- C++ — basic build tools, testing, setup
 - ???
