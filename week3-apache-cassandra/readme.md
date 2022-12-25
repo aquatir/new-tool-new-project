@@ -2,7 +2,8 @@
 
 No SQL database.
 
-Web site: https://cassandra.apache.org/_/index.html
+- Web site: https://cassandra.apache.org/_/index.html
+- Getting started guide: https://cassandra.apache.org/doc/latest/cassandra/getting_started
 
 ## Week 3 — Apache Cassandra
 
@@ -13,7 +14,7 @@ Web site: https://cassandra.apache.org/_/index.html
 
 ### Links
 
-- TBA
+- [intro](/week3-apache-cassandra/intro). 
 
 ## Conclusion
 

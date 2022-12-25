@@ -1,0 +1,11 @@
+version: '2.2'
+
+services:
+  cassandra:
+    image: cassandra:latest
+    container_name: cass_cluster
+    ports:
+      - "9042:9042"
+    volumes:
+      - ./cassandra.yaml:/etc/cassandra/cassandra.yaml
+
