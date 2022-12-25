@@ -9,9 +9,24 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    datastaxVersion = "4.15.0"
+    jupiterVersion = "5.9.0"
+    slfjVersion = "2.0.5"
+}
+
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    // Cassandra dependencies
+    implementation "com.datastax.oss:java-driver-core:${datastaxVersion}"
+    implementation "com.datastax.oss:java-driver-query-builder:${datastaxVersion}"
+    implementation "com.datastax.oss:java-driver-mapper-runtime:${datastaxVersion}"
+
+    implementation "org.slf4j:slf4j-api:${slfjVersion}"
+    implementation "org.slf4j:slf4j-simple:${slfjVersion}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${jupiterVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}"
 }
 
 test {

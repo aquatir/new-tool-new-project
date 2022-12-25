@@ -30,14 +30,16 @@ The next few project I'd like to tackle.
 
 ## Plan 2023
 
-- week 5 (02.01.2023 — 08.01.2023): R2DBC https://r2dbc.io
-- week 6 (09.01.2023 — 15.01.2023): Rust language https://www.rust-lang.org
-- week 7 (16.01.2023 — 22.01.2023): k6 https://k6.io load testing tool by Grafana labs 
+- week 5 (02.01.2023 — 08.01.2023): Postgres LISTEN / NOTIFY mechanism
+- week 6 (09.01.2023 — 15.01.2023): R2DBC https://r2dbc.io
+- week 7 (16.01.2023 — 22.01.2023): Cassandra 3-nodes setup + testing failover.
+- week 8 (23.01.2023 — 29.01.2023): k6 https://k6.io load testing tool by Grafana labs 
 
 In no particular order:
 
-- k9s https://k9scli.io
+- k9s Kubernetes client https://k9scli.io
 - Quarkus https://quarkus.io
+- Rust language https://www.rust-lang.org
 - Map Reduce Lab from [MIT 6.824](https://pdos.csail.mit.edu/6.824/).
 - Trie (aka Prefix Trees?) data structure & algorithms using it.
 - ???
