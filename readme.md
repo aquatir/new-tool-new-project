@@ -8,14 +8,15 @@ language.
 All projects will have a dedicated readme.md inside + an overview of what I managed to achieve in a week. Those will mostly 
 include official tutorials ¯\_(ツ)_/¯. Navigate to any project to see for yourself.
 
-# In Progress (week 3) — Apache Cassandra
+# In Progress (week 4) — PostgreSQL leader + 2 replicas setup + Patroni
 
-project: Terraform [Navigate to page](/week3-apache-cassandra)
+project: pg-cluster [Navigate to page](/week4-pg-cluster)
 
 # Facts
 
 The older things I've competed. This list grows from newest to oldest.
 
+- week 3 — [Cassandra](/week3-apache-cassandra). Docker-compose setup + Java client example with [Datastax](https://github.com/datastax/java-driver).
 - week 2 — [Terraform](/week2-terraform). Basic setup + AWS with modules.
 - week 2 — [pgq](/week2-pgq). My failed attempt to even install PGQ :D
 - week 1 — [Debezium](/week1-debezium). Docker compose setup + Java app to read topics
@@ -23,10 +24,6 @@ The older things I've competed. This list grows from newest to oldest.
 # Plans
 
 The next few project I'd like to tackle.
-
-## Plan 2022
-
-- week 4 (26.12.2022 — 01.01.2023): Setting up PostgreSQL leader + 2 read replicas + failover between them with Patroni
 
 ## Plan 2023
 
