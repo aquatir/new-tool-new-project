@@ -76,4 +76,4 @@ delete from first_keyspace.customers where id in (af7e23d8-742c-4b24-9b6a-1492e8
 There are multiple open source drivers listed in [documentation](https://cassandra.apache.org/doc/latest/cassandra/getting_started/drivers.html). 
 I chose [datastax](https://github.com/datastax/java-driver).
 
-See the dependencies in `build.gradle`
+See the dependencies in `build.gradle`. Navigate to `src/main/java/week3/CassandraRun` for comments on Java client.

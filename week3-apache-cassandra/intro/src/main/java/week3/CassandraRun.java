@@ -52,6 +52,8 @@ public class CassandraRun {
     }
 
     private static CqlSessionBuilder newSession() {
+        // if you don't provide contact points and local datcentre1 (e.g. CqlSession.builder().builder(), it will still
+        // work, because this is a default config
         return CqlSession.builder()
                 .addContactPoint(new InetSocketAddress("localhost", 9042))
                 .withLocalDatacenter("datacenter1")
