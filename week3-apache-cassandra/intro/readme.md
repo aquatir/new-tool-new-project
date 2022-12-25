@@ -59,11 +59,16 @@ select * from first_keyspace.customers ;
 Insert + select + delete
 ```cassandraql
 INSERT INTO first_keyspace.customers(id, first_name, second_name)
-values (af7e23d8-742c-4b24-9b6a-1492e8a570c8, 'Ivan', 'Ivanov'),
-       (35430e28-e0a5-41cb-aac5-94275f2d9a1f, 'Petr', 'Petrov')
-       ;
+values (af7e23d8-742c-4b24-9b6a-1492e8a570c8, 'Ivan', 'Ivanov');
+
+INSERT INTO first_keyspace.customers(id, first_name, second_name)
+values (35430e28-e0a5-41cb-aac5-94275f2d9a1f, 'Petr', 'Petrov');
+
 
 select * from first_keyspace.customers ;
+
+
+delete from first_keyspace.customers where id in (af7e23d8-742c-4b24-9b6a-1492e8a570c8, 35430e28-e0a5-41cb-aac5-94275f2d9a1f);
 ```
 
 ## Connection from Java
