@@ -1,5 +1,0 @@
-rootProject.name = 'week2-terraform'
-include 'intro'
-include 'changing-infra'
-include 'modules'
-

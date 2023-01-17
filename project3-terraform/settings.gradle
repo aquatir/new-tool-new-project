@@ -1,0 +1,5 @@
+rootProject.name = 'project3-terraform'
+include 'intro'
+include 'changing-infra'
+include 'modules'
+

@@ -1,0 +1,4 @@
+rootProject.name = 'project1-debezium'
+include 'simple-app'
+include 'intro'
+
