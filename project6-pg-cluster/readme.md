@@ -5,7 +5,7 @@ Setting up PostgreSQL leader + 2 read replicas + failover with Patroni
 - PostgreSQL high availability https://www.postgresql.org/docs/15/high-availability.html
 - Patroni https://patroni.readthedocs.io/en/latest/README.html 
 
-## Project 5 — PostgreSQL cluster 
+## Project 6 — PostgreSQL cluster 
 
 ### Motivation
 
