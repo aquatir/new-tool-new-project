@@ -1,0 +1,119 @@
+import org.testcontainers.containers.PostgreSQLContainer
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.testcontainers:postgresql:1.17.6'
+        classpath 'org.postgresql:postgresql:42.5.3'
+    }
+}
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.2'
+	id 'io.spring.dependency-management' version '1.1.0'
+
+    id 'org.flywaydb.flyway' version '9.8.1'
+    id 'nu.studer.jooq' version '8.1'
+}
+
+group = 'learn.project5'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('testcontainersVersion', "1.17.6")
+}
+
+configurations {
+    flywayMigration
+}
+
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-jooq'
+	implementation 'org.flywaydb:flyway-core'
+
+    jooqGenerator 'org.postgresql:postgresql'
+
+	runtimeOnly 'org.postgresql:postgresql'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.testcontainers:postgresql'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+task pgContainer {
+    var instance = new PostgreSQLContainer("postgres:14.5")
+    instance.start()
+    pgContainer.ext.jdbcUrl = instance.getJdbcUrl()
+    pgContainer.ext.username = instance.getUsername()
+    pgContainer.ext.password = instance.getPassword()
+    pgContainer.ext.databaseName = instance.getDatabaseName()
+    pgContainer.ext.instance = instance
+}
+
+flyway {
+    url = pgContainer.jdbcUrl
+    user = pgContainer.username
+    password = pgContainer.password
+}
+
+
+jooq {
+    configurations {
+        main {
+            generationTool {
+                jdbc {
+                    driver = 'org.postgresql.Driver'
+                    url = pgContainer.jdbcUrl
+                    user = pgContainer.username
+                    password = pgContainer.password
+                }
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    database {
+                        name = 'org.jooq.meta.postgres.PostgresDatabase'
+                        inputSchema = "public"
+                        outputSchemaToDefault = true
+                    }
+                    target {
+                        packageName = 'com.example.jooq'
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.named('generateJooq').configure {
+    dependsOn tasks.named('pgContainer')
+    dependsOn tasks.named('flywayMigrate')
+
+    inputs.files(fileTree('src/main/resources/db/migration'))
+            .withPropertyName('migrations')
+            .withPathSensitivity(PathSensitivity.RELATIVE)
+    allInputsDeclared = true
+
+    doLast {
+        pgContainer.instance.stop()
+    }
+}
