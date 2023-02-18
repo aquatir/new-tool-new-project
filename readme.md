@@ -16,6 +16,7 @@ project: —
 
 The older things I've competed. This list grows from newest to oldest.
 
+- project 6 — [gradle](/project6-gradle). Tinkering with Gradle.
 - project 5 — [jOOQ+flyway+testcontainer+spring](/project5-spring-jooq-testcontainers-flyway). Run flyway migrations & jOOQ code generation using temporary testcontainers
 - project 4 — [Cassandra](/project4-apache-cassandra). Docker-compose setup + Java client example with [Datastax](https://github.com/datastax/java-driver).
 - project 3 — [Terraform](/project3-terraform). Basic setup + AWS with modules.

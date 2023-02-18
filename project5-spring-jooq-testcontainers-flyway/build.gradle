@@ -20,10 +20,17 @@ plugins {
     id 'nu.studer.jooq' version '8.1'
 }
 
-group = 'learn.project5'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
-targetCompatibility = '17'
+project.group = 'learn.project5'
+project.version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+//sourceCompatibility = '17'
+//targetCompatibility = '17'
 
 repositories {
 	mavenCentral()
@@ -58,10 +65,11 @@ dependencyManagement {
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    def task = it as Test
+    task.useJUnitPlatform()
 }
 
-task pgContainer {
+tasks.register('pgContainer') {
     var instance = new PostgreSQLContainer("postgres:14.5")
     instance.start()
     pgContainer.ext.jdbcUrl = instance.getJdbcUrl()
@@ -89,7 +97,6 @@ jooq {
                     password = pgContainer.password
                 }
                 generator {
-                    name = 'org.jooq.codegen.DefaultGenerator'
                     database {
                         name = 'org.jooq.meta.postgres.PostgresDatabase'
                         inputSchema = "public"

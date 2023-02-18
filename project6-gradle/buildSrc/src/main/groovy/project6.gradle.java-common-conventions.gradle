@@ -1,6 +1,7 @@
 plugins {
     // Apply the java Plugin to add support for Java.
     id 'java'
+    id 'idea'
 }
 
 repositories {
@@ -8,8 +9,11 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility = '17'
-targetCompatibility = '17'
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 dependencies {
     constraints {
