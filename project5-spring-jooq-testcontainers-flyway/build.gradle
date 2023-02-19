@@ -12,9 +12,9 @@ buildscript {
 }
 
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.0.2'
-	id 'io.spring.dependency-management' version '1.1.0'
+    id 'java'
+    id 'org.springframework.boot' version '3.0.2'
+    id 'io.spring.dependency-management' version '1.1.0'
 
     id 'org.flywaydb.flyway' version '9.8.1'
     id 'nu.studer.jooq' version '8.1'
@@ -33,11 +33,11 @@ java {
 //targetCompatibility = '17'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 ext {
-	set('testcontainersVersion', "1.17.6")
+    set('testcontainersVersion', "1.17.6")
 }
 
 configurations {
@@ -46,27 +46,26 @@ configurations {
 
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-jooq'
-	implementation 'org.flywaydb:flyway-core'
+    implementation 'org.springframework.boot:spring-boot-starter-jooq'
+    implementation 'org.flywaydb:flyway-core'
 
     jooqGenerator 'org.postgresql:postgresql'
 
-	runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.testcontainers:junit-jupiter'
-	testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
 }
 
 dependencyManagement {
-	imports {
-		mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
-	}
+    imports {
+        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+    }
 }
 
-tasks.named('test') {
-    def task = it as Test
-    task.useJUnitPlatform()
+tasks.named('test') { Test it ->
+    it.useJUnitPlatform()
 }
 
 tasks.register('pgContainer') {
