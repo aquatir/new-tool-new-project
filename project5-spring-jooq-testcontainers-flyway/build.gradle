@@ -1,5 +1,3 @@
-import org.testcontainers.containers.PostgreSQLContainer
-
 buildscript {
     repositories {
         mavenLocal()
@@ -18,6 +16,7 @@ plugins {
 
     id 'org.flywaydb.flyway' version '9.8.1'
     id 'nu.studer.jooq' version '8.1'
+    id 'com.dorongold.task-tree' version '2.1.1'
 }
 
 project.group = 'learn.project5'
@@ -28,9 +27,6 @@ java {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
-
-//sourceCompatibility = '17'
-//targetCompatibility = '17'
 
 repositories {
     mavenCentral()
@@ -49,7 +45,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jooq'
     implementation 'org.flywaydb:flyway-core'
 
-    jooqGenerator 'org.postgresql:postgresql'
+    implementation 'ch.qos.logback:logback-classic:1.4.5'
+
+    jooqGenerator "com.github.sabomichal:jooq-meta-postgres-flyway:1.1.0"
 
     runtimeOnly 'org.postgresql:postgresql'
 
@@ -68,41 +66,34 @@ tasks.named('test') { Test it ->
     it.useJUnitPlatform()
 }
 
-tasks.register('pgContainer') {
-    var instance = new PostgreSQLContainer("postgres:14.5")
-    instance.start()
-    pgContainer.ext.jdbcUrl = instance.getJdbcUrl()
-    pgContainer.ext.username = instance.getUsername()
-    pgContainer.ext.password = instance.getPassword()
-    pgContainer.ext.databaseName = instance.getDatabaseName()
-    pgContainer.ext.instance = instance
-}
-
-flyway {
-    url = pgContainer.jdbcUrl
-    user = pgContainer.username
-    password = pgContainer.password
-}
-
 
 jooq {
     configurations {
         main {
             generationTool {
-                jdbc {
-                    driver = 'org.postgresql.Driver'
-                    url = pgContainer.jdbcUrl
-                    user = pgContainer.username
-                    password = pgContainer.password
-                }
                 generator {
                     database {
-                        name = 'org.jooq.meta.postgres.PostgresDatabase'
+                        name = "com.github.sabomichal.jooq.PostgresDDLDatabase"
                         inputSchema = "public"
-                        outputSchemaToDefault = true
+                        includes = "public.*"
+                        excludes = "flyway_schema_history"
+                        properties {
+                            property {
+                                key = "locations"
+                                value = "src/main/resources/db/migration"
+                            }
+                            property {
+                                key = "dockerImage"
+                                value = "postgres:14"
+                            }
+                            property {
+                                key = "placeholders"
+                                value = "a=1,b=2"
+                            }
+                        }
                     }
-                    target {
-                        packageName = 'com.example.jooq'
+                    generate {
+                        // ...
                     }
                 }
             }
@@ -110,16 +101,7 @@ jooq {
     }
 }
 
-tasks.named('generateJooq').configure {
-    dependsOn tasks.named('pgContainer')
-    dependsOn tasks.named('flywayMigrate')
+//tasks.named('compileJava') {  it ->
+//    it.dependsOn.remove("generateJooq")
+//}
 
-    inputs.files(fileTree('src/main/resources/db/migration'))
-            .withPropertyName('migrations')
-            .withPathSensitivity(PathSensitivity.RELATIVE)
-    allInputsDeclared = true
-
-    doLast {
-        pgContainer.instance.stop()
-    }
-}

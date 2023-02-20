@@ -1,15 +1,14 @@
 package learn.project5.jootautogenerate;
 
-import com.example.jooq.Tables;
-import com.example.jooq.tables.Customers;
 import org.jooq.DSLContext;
+import org.jooq.generated.Tables;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
 
-import static com.example.jooq.tables.Customers.CUSTOMERS;
+import static org.jooq.generated.tables.Customers.CUSTOMERS;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class JootAutoGenerateApplicationTests {
