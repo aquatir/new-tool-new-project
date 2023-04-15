@@ -25,6 +25,69 @@ Use https://plugins.gradle.org/plugin/com.dorongold.task-tree plugin to see a li
 ./gradlew build taskTree
 ```
 
+### Cool commands
+
+You can abbreviate everything with gradle as long as there is only one possible options. The following command will
+execute `test` task inside `list` project
+
+```
+./gradlew li:te
+```
+
+Listing projects and tasks
+
+```
+./gradlew projects
+./gradlew tasks
+```
+
+There is generally a `--help` option available for most tasks
+
+```
+./gradlew help --task app:build
+```
+
+There is a completions support available separately https://github.com/gradle/gradle-completion
+
+#### Dependencies
+
+Listing dependencies
+
+```
+./gradlew app:dependencies
+```
+
+Same for build script dependencies
+
+```
+./gradlew buildEnvironment
+```
+
+#### Daemon 
+
+To see active daemons run
+
+```
+./gradlew --status
+```
+
+This command will only show daemon with the same version. If you use multiple version you may have multiple gradle daemon
+running together. See [compatibility](https://docs.gradle.org/current/userguide/gradle_daemon.html#compatibility) to check
+what properties are used to start new daemon. To detect all daemons if you have JDK installed, run
+
+```
+jps
+```
+
+To stop a daemon run
+
+```
+./gradlew --stop
+```
+
+This again will only stop daemons of the same version. In order to remove the daemon for different versions first find them
+with `jps` then `kill`
+
 ## Conclusion
 
 **DISCLAIMER**: I write this chapter in the end of a project to summarize my learning about a new tool. This is heavily
