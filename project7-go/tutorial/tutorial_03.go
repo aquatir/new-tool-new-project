@@ -2,7 +2,6 @@ package tutorial
 
 import (
 	"fmt"
-	"golang.org/x/tour/pic"
 	"golang.org/x/tour/wc"
 	"math"
 	"strings"
@@ -181,7 +180,7 @@ func CourseOfGoPartThree() {
 		fmt.Printf("2**%d = %d\n", index, value)
 	}
 
-	pic.Show(Pic)
+	//pic.Show(Pic) don't call because it will output a long PNG string
 
 	// maps
 	nameToAge := make(map[string]int)
