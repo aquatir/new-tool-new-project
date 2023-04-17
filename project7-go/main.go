@@ -23,6 +23,6 @@ func main() {
 	fmt.Println("******\npart five — type parameters:\n*****")
 	tutorial.CourseOfGoPartFive()
 
-	fmt.Println("******\npart six — goroutines:\n*****")
+	fmt.Println("******\npart six — goroutines, channels, mutex:\n*****")
 	tutorial.CourseOfGoPartSix()
 }
