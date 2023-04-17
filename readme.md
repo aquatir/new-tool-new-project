@@ -8,9 +8,9 @@ language.
 All projects will have a dedicated readme.md inside + an overview of what I managed to achieve in a short time span, usually a week. 
 Those will mostly include official tutorials ¯\_(ツ)_/¯. Navigate to any project to see for yourself.
 
-# In Progress (project 6) — Nothing yet, it will be pg cluster with leader + replicate using I don't know what yet
+# In Progress (project 7) — Go language 
 
-project: —
+project: [gradle](/project7-go)
 
 # Facts
 
@@ -29,14 +29,11 @@ The next few project I'd like to tackle.
 
 ## Plan 2023
 
-- project 6: PostgreSQL leader + replicate setup + Patroni ??
-- project 7: Postgres LISTEN / NOTIFY mechanism
-- project 8: R2DBC https://r2dbc.io
-- project 9: Cassandra 3-nodes setup + testing failover.
-- project 10: k6 https://k6.io load testing tool by Grafana labs 
-
-In no particular order:
-
+- PostgreSQL leader + replicate setup + Patroni ??
+- Postgres LISTEN / NOTIFY mechanism
+- R2DBC https://r2dbc.io
+- Cassandra 3-nodes setup + testing failover.
+- k6 https://k6.io load testing tool by Grafana labs 
 - k9s Kubernetes client https://k9scli.io
 - Quarkus https://quarkus.io
 - Rust language https://www.rust-lang.org
