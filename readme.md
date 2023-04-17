@@ -10,7 +10,7 @@ Those will mostly include official tutorials ¯\_(ツ)_/¯. Navigate to any proj
 
 # In Progress (project 7) — Go language 
 
-project: [gradle](/project7-go)
+project: [go](/project7-go)
 
 # Facts
 
