@@ -2,30 +2,30 @@ package main
 
 import (
 	"fmt"
-	"project7-go/tutorial"
+	"tutorial/part"
 )
 
 func main() {
 	fmt.Println("part one — printing, swapping, constants:")
-	tutorial.CourseOfGoPartOne()
+	part.CourseOfGoPartOne()
 
 	fmt.Println("******\npart two — loops, flow control, deferred, functions \n*****")
 
-	tutorial.CourseOfGoPartTwo()
+	part.CourseOfGoPartTwo()
 
 	fmt.Println("******\npart three — pointers, structs, arrays, slices, maps, closures \n*****")
 
-	tutorial.CourseOfGoPartThree()
+	part.CourseOfGoPartThree()
 
 	fmt.Println("******\npart four — methods & receivers, interfaces, type check & type switch, implementing interfaces:\n*****")
-	tutorial.CourseOfGoPartFour()
+	part.CourseOfGoPartFour()
 
 	fmt.Println("******\npart five — type parameters:\n*****")
-	tutorial.CourseOfGoPartFive()
+	part.CourseOfGoPartFive()
 
 	fmt.Println("******\npart six — goroutines, channels, mutex:\n*****")
-	tutorial.CourseOfGoPartSix()
+	part.CourseOfGoPartSix()
 
 	fmt.Println("*****\n crawler")
-	tutorial.ExecuteCrawler()
+	part.ExecuteCrawler()
 }

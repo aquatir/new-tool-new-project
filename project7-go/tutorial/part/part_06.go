@@ -1,4 +1,4 @@
-package tutorial
+package part
 
 import (
 	"fmt"

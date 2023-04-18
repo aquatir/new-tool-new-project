@@ -1,4 +1,4 @@
-module project7-go
+module tutorial
 
 go 1.20
 
