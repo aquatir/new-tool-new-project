@@ -194,7 +194,7 @@ func CourseOfGoPartSix() {
 	for i := 0; i < 1000; i++ {
 		go safeCounter.Inc("somekey")
 	}
-
+	fmt.Println("sleeping for a seconds before the safe keys are updated")
 	time.Sleep(time.Second)
 	fmt.Println(safeCounter.Value("somekey"))
 
