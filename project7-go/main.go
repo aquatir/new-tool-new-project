@@ -25,4 +25,7 @@ func main() {
 
 	fmt.Println("******\npart six — goroutines, channels, mutex:\n*****")
 	tutorial.CourseOfGoPartSix()
+
+	fmt.Println("*****\n crawler")
+	tutorial.ExecuteCrawler()
 }
