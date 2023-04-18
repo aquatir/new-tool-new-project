@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"html/template"
@@ -8,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"strings"
 )
 
 const contentDirName = "content/"
@@ -93,8 +95,33 @@ func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
 	}
 	return m[2], nil // The title is the second subexpression.
 }
+
+type Greeting string
+
+func (g Greeting) ServerHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, string(g))
+}
+
+const myJson = `[
+	{"Title": "kekw", "Name": "Ivan"},
+	{"Title": "lul", "Name": "v"}
+]
+`
+
+type Item struct {
+	Title string
+	Name  string
+}
+
 func main() {
 	fmt.Println("Hello")
+
+	var items []*Item
+	json.NewDecoder(strings.NewReader(myJson)).Decode(&items)
+
+	for _, value := range items {
+		fmt.Println("title:", value.Title, "name:", value.Name)
+	}
 
 	p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
 	p1.save()
@@ -104,5 +131,8 @@ func main() {
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
+
+	// it is possible to pass a "type Greeting string" as a function as long as it does implement the said function
+	//log.Fatal(http.ListenAndServe(":8080", Greeting("hello")))
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

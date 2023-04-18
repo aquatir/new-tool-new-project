@@ -17,7 +17,7 @@ func main() {
 
 	part.CourseOfGoPartThree()
 
-	fmt.Println("******\npart four — methods & receivers, interfaces, type check & type switch, implementing interfaces:\n*****")
+	fmt.Println("******\npart four — methods & receivers, interfaces, type check & type switch, implementing interfaces, Reader:\n*****")
 	part.CourseOfGoPartFour()
 
 	fmt.Println("******\npart five — type parameters:\n*****")
