@@ -103,6 +103,20 @@ func (c *SafeCounter) Value(key string) int {
 	return c.v[key]
 }
 
+func somePrinter() <-chan int {
+	intChan := make(chan int)
+
+	go func() {
+		for i := 0; i < 5; i++ {
+			intChan <- i
+			time.Sleep(500 * time.Millisecond)
+		}
+		close(intChan)
+	}()
+
+	return intChan
+}
+
 func CourseOfGoPartSix() {
 	fmt.Println("Starting 5")
 
@@ -197,5 +211,13 @@ func CourseOfGoPartSix() {
 	fmt.Println("sleeping for a seconds before the safe keys are updated")
 	time.Sleep(time.Second)
 	fmt.Println(safeCounter.Value("somekey"))
+
+	// call a function returning a channel. The function runs goroutine internally
+	intChat := somePrinter()
+	for i := range intChat {
+		fmt.Printf("%d ", i)
+	}
+	fmt.Println()
+	fmt.Println("****")
 
 }

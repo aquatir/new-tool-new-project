@@ -38,8 +38,8 @@ func main() {
 	}
 
 	// Create a new SQLC client
-	sqlClient := dbdata.New(db)
-	ctx := context.Background()
+	dbClient := dbdata.New(db)
+	dbCtx := context.Background()
 
 	// Echo instance
 	e := echo.New()
@@ -60,24 +60,24 @@ func main() {
 	e.POST("/post", postHandler)
 
 	// curl localhost:1323/db/create
-	e.GET("/db/create", handleWithDb(sqlClient, ctx, withDbInsertAndSelect))
+	e.GET("/db/create", handleWithDb(dbClient, dbCtx, dbInsertOne))
 
 	// curl localhost:1323/db/all
-	e.GET("db/all", handleWithDb(sqlClient, ctx, dbGetAll))
+	e.GET("db/all", handleWithDb(dbClient, dbCtx, dbSelectAll))
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
 }
 
 // expand default Context with DB access params
-func handleWithDb(client *dbdata.Queries, ctx context.Context, handlingFunction func(cc *CustomContext) error) echo.HandlerFunc {
+func handleWithDb(dbClient *dbdata.Queries, dbCtx context.Context, handlingFunction func(cc *CustomContext) error) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		cc := &CustomContext{c, client, ctx}
+		cc := &CustomContext{c, dbClient, dbCtx}
 		return handlingFunction(cc)
 	}
 }
 
-func withDbInsertAndSelect(c *CustomContext) error {
+func dbInsertOne(c *CustomContext) error {
 	newAuthor, err := c.db.CreateAuthor(c.ctx, dbdata.CreateAuthorParams{
 		Name: "Ivan",
 		Bio: sql.NullString{
@@ -92,7 +92,7 @@ func withDbInsertAndSelect(c *CustomContext) error {
 	return c.JSON(http.StatusOK, fmt.Sprintf("Created author %s", authorToString(newAuthor)))
 }
 
-func dbGetAll(cc *CustomContext) error {
+func dbSelectAll(cc *CustomContext) error {
 	authors, err := cc.db.ListAuthors(cc.ctx)
 	if err != nil {
 		return err
