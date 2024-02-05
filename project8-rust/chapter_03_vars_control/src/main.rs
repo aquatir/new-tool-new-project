@@ -54,14 +54,41 @@ fn main() {
     println!("type values are a: '{a}', b: '{b}', c: '{c}'");
     // Destructing is also supported
     let a = (5, 32, 43);
-    println!("type value 0: '{}', type value 1 '{}' type value 2 '{}'", a.0, a.1, a.2);
+    println!(
+        "type value 0: '{}', type value 1 '{}' type value 2 '{}'",
+        a.0, a.1, a.2
+    );
 
     // Rust also have arrays
     // you specify the size of the array in type. Rust will figure out a type if you don't do it
-    let _months: [&str; 12] = ["January", "February", "March", "April", "May", "June", "July",
-        "August", "September", "October", "November", "December"];
+    let _months: [&str; 12] = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
 
     // knowing the type of the array, Rust knows that certain operations are invalid
     // println!("the 12th month is: {}", _months[12]) // Doesn't compile
 
+    print_hello_world_function();
+    let hey = "hey";
+    let capitalized_hey = capitalize_function(hey);
+    println!("hey: '{hey}', capitalized_hey: '{capitalized_hey}'");
+}
+
+fn print_hello_world_function() {
+    println!("Hello, world")
+}
+
+fn capitalize_function(str: &str) -> String {
+    str.to_uppercase()
 }
