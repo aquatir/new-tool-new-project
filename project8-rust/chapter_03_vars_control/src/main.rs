@@ -94,6 +94,10 @@ fn main() {
     let capitalized_hey = capitalize_function(hey);
     println!("hey: '{hey}', capitalized_hey: '{capitalized_hey}'");
 
+    // can also return more than one value
+    let (result, result_x_2) = return_val_and_double(5);
+    println!("result: '{result}', result_x_2: '{result_x_2}'");
+
     //
     // If Statement
     //
@@ -202,4 +206,8 @@ fn fib(n: u32) -> u32 {
     } else {
         fib(n-2) + fib (n-1)
     }
+}
+
+fn return_val_and_double(x: u32) -> (u32, u32) {
+    (x, x * 2)
 }
