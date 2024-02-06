@@ -1,8 +1,14 @@
 // Chapter 3 of The Rust Book — variables, mutability, data types, functions, control flow
 
+use rand::Rng;
+
 const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3; // constants mush always have a type
 
 fn main() {
+    //
+    // variables, chars, numbers, arrays
+    //
+
     let x = 5;
     println!("The value of x is: '{x}'");
 
@@ -79,10 +85,105 @@ fn main() {
     // knowing the type of the array, Rust knows that certain operations are invalid
     // println!("the 12th month is: {}", _months[12]) // Doesn't compile
 
+    //
+    // Functions
+    //
+
     print_hello_world_function();
     let hey = "hey";
     let capitalized_hey = capitalize_function(hey);
     println!("hey: '{hey}', capitalized_hey: '{capitalized_hey}'");
+
+    //
+    // If Statement
+    //
+
+    println!("spinning the coin...");
+    let coin = rand::thread_rng().gen_bool(0.5);
+    if coin {
+        println!("It's tails")
+    } else {
+        println!("It's heads")
+    }
+
+    let one_to_four = rand::thread_rng().gen_range(1..=4);
+    if one_to_four == 1 {
+        println!("got a one")
+    } else if one_to_four == 2 {
+        println!("got a two")
+    } else if one_to_four == 3 {
+        println!("got a three")
+    } else {
+        println!("got a four")
+    }
+
+    // can use if as expression
+    let coin = if rand::thread_rng().gen_bool(0.5) {
+        "tails"
+    } else {
+        "heads"
+    };
+    println!("The result of another coin spin is {}", coin);
+
+    //
+    // Loops
+    //
+
+    // loop == infinite loop
+    // loops can be expressions
+    let mut times = 5;
+    let stopped_after = loop {
+        println!("again!");
+        times = times - 1;
+        if times == 0 {
+            break times;
+        }
+    };
+    println!("stopped the look after '{}' iterations", 5 - stopped_after);
+
+    // loops can have labels to check where to break
+    let mut count = 0;
+    'counting_up: loop {
+        println!("count = {count}");
+        let mut remaining = 10;
+
+        loop {
+            println!("remaining = {remaining}");
+            if remaining == 9 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+
+        count += 1;
+    }
+    println!("End count = {count}");
+
+    let mut i = 3;
+    while i > 0 {
+        println!("decrementing i from '{i}'");
+        i = i - 1;
+    }
+
+    // looping on collections
+    let a = [10, 20, 30, 40, 50];
+    for element in a {
+        println!("cur element: '{element}'")
+    }
+
+    // can loop over ranges and other way around as well
+    // 1..4 => 1,2,3
+    // 1..=4 => 1,2,3,4
+    for element in (1..4).rev() {
+        println!("cur element '{element}'")
+    }
+
+    for element in 6..=10 {
+        println!("fib({element}) is {}", fib(element));
+    }
 }
 
 fn print_hello_world_function() {
@@ -91,4 +192,14 @@ fn print_hello_world_function() {
 
 fn capitalize_function(str: &str) -> String {
     str.to_uppercase()
+}
+
+fn fib(n: u32) -> u32 {
+    if n == 1 {
+        1
+    } else if n == 2 {
+        1
+    } else {
+        fib(n-2) + fib (n-1)
+    }
 }
