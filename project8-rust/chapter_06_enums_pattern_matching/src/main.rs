@@ -34,6 +34,28 @@ fn execute_message(message: Message) -> String {
     }
 }
 
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+
+fn three_or_not_three(val: u32) {
+    match val {
+        3 => println!("It's a three"),
+        not_three => println!("It's not a three, its '{}'", not_three)
+    }
+}
 
 fn main() {
     let four = IpAddrKind::V4;
@@ -62,4 +84,35 @@ fn main() {
     println!("some_number: {:?}", some_number);
     println!("some_char: {:?}", some_char);
     println!("absent_number: {:?}", absent_number);
+
+    println!("value of Penny: '{}'", value_in_cents(Coin::Penny));
+    println!("value of Nickel: '{}'", value_in_cents(Coin::Nickel));
+    println!("value of Dime: '{}'", value_in_cents(Coin::Dime));
+    println!("value of Quarter: '{}'", value_in_cents(Coin::Quarter));
+
+    three_or_not_three(5);
+    three_or_not_three(3);
+
+    //
+    // if let
+    //
+
+    // change the line to see how the code works for None
+    let config_max = Some(3u8);
+    // let config_max: Option<u8> = None;
+
+    // the obvious way to write "only do something is value is Some
+    match config_max {
+        Some(max) => println!("The maximum is configured to be {}", max),
+        _ => println!("No value"),
+    }
+
+    // the if let way of doing the same
+    if let Some(max) = config_max {
+        println!("The maximum is configured to be {}", max);
+    } else {
+        println!("No value")
+    }
 }
+
+
