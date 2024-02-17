@@ -8,7 +8,9 @@ fn main() {
     let plant = Asparagus {};
     println!("I'm growing {:?}!", plant);
 
-    libs::front_of_house::hosting::add_to_waitlist();
+    // use can go on top or be inlined
+    use libs::front_of_house::hosting::add_to_waitlist;
+    add_to_waitlist();
 
     libs::cook_meal();
 }

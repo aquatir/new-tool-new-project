@@ -1,7 +1,6 @@
 pub mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
-
     }
 
     pub mod serving {
@@ -17,7 +16,6 @@ mod back_of_house {
         pub fn make_steak() {}
         pub fn make_salad() {}
     }
-
 
     // "super" references a function in a parent of back_of_house
     fn fix_incorrect_order() {
