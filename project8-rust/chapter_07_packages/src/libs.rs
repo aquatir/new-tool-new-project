@@ -1,3 +1,6 @@
+mod another_module;
+pub use another_module::some_lib;
+
 pub mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -34,4 +37,6 @@ pub fn cook_meal() {
     // we don't expose the whole back_of_hose though
     back_of_house::cook::make_salad();
     back_of_house::cook::make_steak();
+
+    some_lib::function_in_another_module()
 }
