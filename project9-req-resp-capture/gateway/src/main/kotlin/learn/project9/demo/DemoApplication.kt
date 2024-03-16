@@ -56,7 +56,7 @@ class DemoApplication {
                             val sb = StringBuilder()
                             sb.append("Response ${webExchange.response.statusCode}")
                             sb.append(" Headers: ")
-                            webExchange.request.headers.forEach { key, value -> sb.append("$key: $value, ") }
+                            webExchange.response.headers.forEach { key, value -> sb.append("$key: $value, ") }
                             val returnBody = if (originalBody != null) {
                                 sb.append(" Body: $originalBody")
                                 Mono.just(originalBody)
@@ -98,7 +98,7 @@ class DemoApplication {
                             val sb = StringBuilder()
                             sb.append("RequestId '${webExchange.attributes["req-id"]}' Response ${webExchange.response.statusCode}")
                             sb.append(" Headers: ")
-                            webExchange.request.headers.forEach { key, value -> sb.append("$key: $value, ") }
+                            webExchange.response.headers.forEach { key, value -> sb.append("$key: $value, ") }
                             val returnBody = if (originalBody != null) {
                                 sb.append(" Body: $originalBody")
                                 Mono.just(originalBody)
