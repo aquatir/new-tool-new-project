@@ -5,9 +5,6 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.engine.embeddedServer
-import io.ktor.server.http.content.static
-import io.ktor.server.http.content.staticFiles
-import io.ktor.server.http.content.staticResources
 import io.ktor.server.netty.Netty
 import io.ktor.server.response.header
 import io.ktor.server.response.respondText
@@ -15,7 +12,6 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import io.ktor.server.util.getOrFail
 import kotlinx.coroutines.delay
-import java.io.File
 
 fun main() {
     embeddedServer(Netty, port = 8081, host = "0.0.0.0", module = Application::module)
@@ -48,11 +44,13 @@ fun Application.configureRoutes() {
 
         get("/slow") {
             delay(1_500)
-            call.respondText { """
+            call.respondText {
+                """
                 {
                     "success": "yes"
                 }
-            """.trimIndent() }
+            """.trimIndent()
+            }
         }
     }
 
