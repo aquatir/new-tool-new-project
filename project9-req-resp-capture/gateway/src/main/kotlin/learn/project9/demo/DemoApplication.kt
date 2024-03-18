@@ -38,6 +38,15 @@ class DemoApplication {
                 }
                 uri("http://httpbin.org")
             }
+
+            route("/backend") {
+                path("/backend/**")
+                filters {
+                    rewritePath("/backend/(?<segment>.*)", "/\${segment}")
+                    filters.requestResponseLoggingFilter(this)
+                }
+                uri("localhost:8081")
+            }
         }
     }
 }
