@@ -2,6 +2,8 @@ package learn.project9.demo
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.cloud.gateway.route.builder.GatewayFilterSpec
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMessage
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
@@ -24,6 +26,8 @@ data class ResponseData(
     var body: String? = null
 )
 
+private fun HttpHeaders.deepCopy(): Map<String, List<String>> = HashMap(this)
+
 @Component
 class Filters(val objectMapper: ObjectMapper) {
 
@@ -34,14 +38,13 @@ class Filters(val objectMapper: ObjectMapper) {
 
     private val requestMapper: (ServerWebExchange, String?) -> Mono<String?> =
         { exchange: ServerWebExchange, originalBody: String? ->
-            println("hitting Request Body mapper")
             val reqData = RequestData(
                 reqId = UUID.randomUUID().toString().also {
                     exchange.attributes[REQ_ID] = it
                 },
                 method = exchange.request.method,
                 uri = exchange.request.uri,
-                headers = exchange.request.headers
+                headers = exchange.request.headers.deepCopy()
             )
 
             val returnBody = if (originalBody != null) {
@@ -56,11 +59,10 @@ class Filters(val objectMapper: ObjectMapper) {
 
     private val responseMapper: (ServerWebExchange, String?) -> Mono<String?> =
         { exchange: ServerWebExchange, originalBody: String? ->
-            println("hitting Response Body mapper")
             val respData = ResponseData(
                 reqId = exchange.attributes[REQ_ID] as String?,
                 status = exchange.response.statusCode?.value(),
-                headers = HashMap(exchange.response.headers) // copy headers
+                headers = exchange.response.headers.deepCopy()
             )
 
             // remove headers starting with X-TG
@@ -88,3 +90,5 @@ class Filters(val objectMapper: ObjectMapper) {
         }
     }
 }
+
+

@@ -6,6 +6,8 @@ import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
 import org.springframework.cloud.gateway.route.builder.filters
 import org.springframework.cloud.gateway.route.builder.routes
+import org.springframework.cloud.gateway.support.RouteMetadataUtils.CONNECT_TIMEOUT_ATTR
+import org.springframework.cloud.gateway.support.RouteMetadataUtils.RESPONSE_TIMEOUT_ATTR
 import org.springframework.context.annotation.Bean
 
 const val REQ_ID = "req-id"
@@ -34,6 +36,8 @@ class DemoApplication {
                     filters.requestResponseLoggingFilter(this)
                 }
                 uri("http://localhost:8081")
+                metadata(RESPONSE_TIMEOUT_ATTR, 1_000)  // ms
+                metadata(CONNECT_TIMEOUT_ATTR, 1_000)   // ms
             }
         }
     }
