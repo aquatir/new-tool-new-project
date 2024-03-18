@@ -28,31 +28,20 @@ data class ResponseData(
 class Filters(val objectMapper: ObjectMapper) {
 
     fun requestResponseLoggingFilter(myGatewayFilter: GatewayFilterSpec) {
-        myGatewayFilter.modifyRequestBody(String::class.java, String::class.java, requestBodyMapper)
-        myGatewayFilter.modifyResponseBody(String::class.java, String::class.java, responseBodyMapper)
-
-        // Remove all response headers starting with X-TG
-        myGatewayFilter.filter { exchange, chain ->
-            chain.filter(exchange)
-                .then(Mono.fromRunnable {
-                    exchange.response.headers.filter { it.key.startsWith("X-TG") }
-                        .forEach {
-                            exchange.response.headers.remove(it.key)
-                        }
-
-                });
-        }
+        myGatewayFilter.modifyRequestBody(String::class.java, String::class.java, requestMapper)
+        myGatewayFilter.modifyResponseBody(String::class.java, String::class.java, responseMapper)
     }
 
-    private val requestBodyMapper: (ServerWebExchange, String?) -> Mono<String?> =
-        { webExchange: ServerWebExchange, originalBody: String? ->
+    private val requestMapper: (ServerWebExchange, String?) -> Mono<String?> =
+        { exchange: ServerWebExchange, originalBody: String? ->
+            println("hitting Request Body mapper")
             val reqData = RequestData(
                 reqId = UUID.randomUUID().toString().also {
-                    webExchange.attributes[REQ_ID] = it
+                    exchange.attributes[REQ_ID] = it
                 },
-                method = webExchange.request.method,
-                uri = webExchange.request.uri,
-                headers = webExchange.request.headers
+                method = exchange.request.method,
+                uri = exchange.request.uri,
+                headers = exchange.request.headers
             )
 
             val returnBody = if (originalBody != null) {
@@ -65,13 +54,21 @@ class Filters(val objectMapper: ObjectMapper) {
             returnBody
         }
 
-    private val responseBodyMapper: (ServerWebExchange, String?) -> Mono<String?> =
-        { webExchange: ServerWebExchange, originalBody: String? ->
+    private val responseMapper: (ServerWebExchange, String?) -> Mono<String?> =
+        { exchange: ServerWebExchange, originalBody: String? ->
+            println("hitting Response Body mapper")
             val respData = ResponseData(
-                reqId = webExchange.attributes[REQ_ID] as String?,
-                status = webExchange.response.statusCode?.value(),
-                headers = webExchange.response.headers
+                reqId = exchange.attributes[REQ_ID] as String?,
+                status = exchange.response.statusCode?.value(),
+                headers = HashMap(exchange.response.headers) // copy headers
             )
+
+            // remove headers starting with X-TG
+            exchange.response.headers.filter { it.key.startsWith("X-TG") }
+                .forEach {
+                    exchange.response.headers.remove(it.key)
+                }
+
             val returnBody = if (originalBody != null) {
                 respData.body = tryParseJson(originalBody)
                 Mono.just(originalBody)
