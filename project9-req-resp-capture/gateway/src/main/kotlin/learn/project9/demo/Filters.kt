@@ -5,6 +5,7 @@ import org.springframework.cloud.gateway.route.builder.GatewayFilterSpec
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMessage
 import org.springframework.http.HttpMethod
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
@@ -53,7 +54,7 @@ class Filters(val objectMapper: ObjectMapper) {
             } else {
                 Mono.empty()
             }
-            println(reqData)
+            logRequestData(reqData)
             returnBody
         }
 
@@ -77,7 +78,7 @@ class Filters(val objectMapper: ObjectMapper) {
             } else {
                 Mono.empty()
             }
-            println(respData)
+            logResponseData(respData)
             returnBody
         }
 
@@ -88,6 +89,16 @@ class Filters(val objectMapper: ObjectMapper) {
         } catch (e: Exception) {
             null
         }
+    }
+
+    @Async
+    fun logRequestData(requestData: RequestData): Unit {
+        println(requestData)
+    }
+
+    @Async
+    fun logResponseData(responseData: ResponseData): Unit {
+        println(responseData)
     }
 }
 
