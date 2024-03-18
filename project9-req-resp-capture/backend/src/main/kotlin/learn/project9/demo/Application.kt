@@ -17,9 +17,11 @@ fun main() {
 fun Application.configureRoutes() {
     routing {
         get("/") {
+            println("a call to /")
             call.respondText("Hello World!")
         }
         get("/header") {
+            println("a call to /header")
             call.response.header("X-TG-ClientId", "value")
             call.respondText(
                 """
