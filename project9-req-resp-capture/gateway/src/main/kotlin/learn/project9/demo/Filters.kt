@@ -92,14 +92,11 @@ class Filters(val objectMapper: ObjectMapper) {
     }
 
     @Async
-    fun logRequestData(requestData: RequestData): Unit {
-        println(requestData)
-    }
+    fun logRequestData(requestData: RequestData) = println(requestData)
 
     @Async
-    fun logResponseData(responseData: ResponseData): Unit {
-        println(responseData)
-    }
+    fun logResponseData(responseData: ResponseData) = println(responseData)
+
 }
 
 
