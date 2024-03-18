@@ -12,18 +12,6 @@ import java.net.URI
 
 const val REQ_ID = "req-id"
 
-data class RequestData(
-    val reqId: String,
-    val method: HttpMethod,
-    val uri: URI,
-    val headers: Map<String, List<String>>,
-    var body: String? = null
-)
-
-data class ResponseData(
-    val reqId: String?, val headers: Map<String, List<String>>, var body: String? = null
-)
-
 @SpringBootApplication
 class DemoApplication {
     @Bean
@@ -31,6 +19,7 @@ class DemoApplication {
 
         return builder.routes {
             route("httpbin") {
+                host("localhost:8080")
                 path("/httpbin/**")
                 filters {
                     rewritePath("/httpbin/(?<segment>.*)", "/\${segment}")
@@ -39,13 +28,14 @@ class DemoApplication {
                 uri("http://httpbin.org")
             }
 
-            route("/backend") {
+            route("backend") {
+                host("localhost:8080")
                 path("/backend/**")
                 filters {
                     rewritePath("/backend/(?<segment>.*)", "/\${segment}")
                     filters.requestResponseLoggingFilter(this)
                 }
-                uri("localhost:8081")
+                uri("http://localhost:8081")
             }
         }
     }

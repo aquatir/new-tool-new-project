@@ -2,10 +2,27 @@ package learn.project9.demo
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.cloud.gateway.route.builder.GatewayFilterSpec
+import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
+import java.net.URI
 import java.util.UUID
+
+data class RequestData(
+    val reqId: String,
+    val method: HttpMethod,
+    val uri: URI,
+    val headers: Map<String, List<String>>,
+    var body: String? = null
+)
+
+data class ResponseData(
+    val reqId: String?,
+    val status: Int?,
+    val headers: Map<String, List<String>>,
+    var body: String? = null
+)
 
 @Component
 class Filters(val objectMapper: ObjectMapper) {
@@ -27,7 +44,7 @@ class Filters(val objectMapper: ObjectMapper) {
         }
     }
 
-    private val requestBodyMapper: (ServerWebExchange, String) -> Mono<String> =
+    private val requestBodyMapper: (ServerWebExchange, String?) -> Mono<String?> =
         { webExchange: ServerWebExchange, originalBody: String? ->
             val reqData = RequestData(
                 reqId = UUID.randomUUID().toString().also {
@@ -48,10 +65,12 @@ class Filters(val objectMapper: ObjectMapper) {
             returnBody
         }
 
-    private val responseBodyMapper: (ServerWebExchange, String) -> Mono<String> =
+    private val responseBodyMapper: (ServerWebExchange, String?) -> Mono<String?> =
         { webExchange: ServerWebExchange, originalBody: String? ->
             val respData = ResponseData(
-                reqId = webExchange.attributes[REQ_ID] as String?, headers = webExchange.response.headers
+                reqId = webExchange.attributes[REQ_ID] as String?,
+                status = webExchange.response.statusCode?.value(),
+                headers = webExchange.response.headers
             )
             val returnBody = if (originalBody != null) {
                 respData.body = tryParseJson(originalBody)
