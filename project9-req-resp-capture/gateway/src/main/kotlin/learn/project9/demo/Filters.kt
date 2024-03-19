@@ -1,35 +1,41 @@
 package learn.project9.demo
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.cloud.gateway.route.builder.GatewayFilterSpec
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
-import java.net.URI
+import java.time.OffsetDateTime
 import java.util.UUID
 
 data class RequestData(
     val reqId: String,
-    val method: HttpMethod,
-    val uri: URI,
+    val method: String,
+    val uri: String,
     val headers: Map<String, List<String>>,
-    var body: String? = null
+    val timestamp: OffsetDateTime = OffsetDateTime.now(),
+    var body: JsonNode? = null,
 )
 
 data class ResponseData(
     val reqId: String?,
     val status: Int?,
     val headers: Map<String, List<String>>,
-    var body: String? = null
+    val timestamp: OffsetDateTime = OffsetDateTime.now(),
+    var body: JsonNode? = null,
 )
 
 private fun HttpHeaders.deepCopy(): Map<String, List<String>> = HashMap(this)
 
 @Component
-class Filters(val objectMapper: ObjectMapper) {
+class Filters(
+    val objectMapper: ObjectMapper,
+    val kafkaTemplate: KafkaTemplate<String, String>,
+) {
 
     fun requestResponseLoggingFilter(myGatewayFilter: GatewayFilterSpec) {
         myGatewayFilter.modifyRequestBody(String::class.java, String::class.java, requestMapper)
@@ -42,8 +48,8 @@ class Filters(val objectMapper: ObjectMapper) {
                 reqId = UUID.randomUUID().toString().also {
                     exchange.attributes[REQ_ID] = it
                 },
-                method = exchange.request.method,
-                uri = exchange.request.uri,
+                method = exchange.request.method.name(),
+                uri = exchange.request.uri.toString(),
                 headers = exchange.request.headers.deepCopy()
             )
 
@@ -81,20 +87,28 @@ class Filters(val objectMapper: ObjectMapper) {
             returnBody
         }
 
-    private fun tryParseJson(input: String): String? {
+    private fun tryParseJson(input: String): JsonNode? {
         return try {
-            val jsonNode = objectMapper.readTree(input)
-            return objectMapper.writeValueAsString(jsonNode)
+            return objectMapper.readTree(input)
         } catch (e: Exception) {
             null
         }
     }
 
     @Async
-    fun logRequestData(requestData: RequestData) = println(requestData)
+    fun logRequestData(requestData: RequestData) {
+
+        val dataAsJson = objectMapper.writeValueAsString(requestData)
+        kafkaTemplate.send("topic", dataAsJson)
+        println(dataAsJson)
+    }
 
     @Async
-    fun logResponseData(responseData: ResponseData) = println(responseData)
+    fun logResponseData(responseData: ResponseData) {
+        val dataAsJson = objectMapper.writeValueAsString(responseData)
+        kafkaTemplate.send("topic", dataAsJson)
+        println(dataAsJson)
+    }
 
 }
 

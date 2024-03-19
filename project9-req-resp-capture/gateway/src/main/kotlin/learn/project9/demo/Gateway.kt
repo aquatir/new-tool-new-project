@@ -12,8 +12,12 @@ import org.springframework.context.annotation.Bean
 
 const val REQ_ID = "req-id"
 
+fun main(args: Array<String>) {
+    runApplication<Gateway>(*args)
+}
+
 @SpringBootApplication
-class DemoApplication {
+class Gateway {
     @Bean
     fun customRouteLocator(builder: RouteLocatorBuilder, filters: Filters): RouteLocator {
 
@@ -41,8 +45,4 @@ class DemoApplication {
             }
         }
     }
-}
-
-fun main(args: Array<String>) {
-    runApplication<DemoApplication>(*args)
 }

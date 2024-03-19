@@ -20,10 +20,9 @@ repositories {
 extra["springCloudVersion"] = "2023.0.0"
 
 dependencies {
-//    implementation(kotlin("stdlib-jdk8"))
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-
     implementation("org.springframework.cloud:spring-cloud-starter-gateway")
+    implementation("org.springframework.kafka:spring-kafka")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
