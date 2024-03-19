@@ -6,9 +6,11 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.server.request.receiveText
 import io.ktor.server.response.header
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
+import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
 import io.ktor.server.util.getOrFail
 import kotlinx.coroutines.delay
@@ -24,9 +26,9 @@ fun Application.configureRoutes() {
             call.respondText("Hello World!")
         }
         get("/header") {
-            call.response.header("X-TG-ClientId", "client-id")
-            call.response.header("X-TG-UserId", "user-id")
-            call.response.header("X-TG-new-custom-header", "new-custom-header")
+            call.response.header("X-CompanyName-ClientId", "client-id")
+            call.response.header("X-CompanyName-UserId", "user-id")
+            call.response.header("X-CompanyName-new-custom-header", "new-custom-header")
             call.response.header(HttpHeaders.ContentType, "application/json")
             call.respondText(
                 """
@@ -51,6 +53,11 @@ fun Application.configureRoutes() {
                 }
             """.trimIndent()
             }
+        }
+
+        post("/body") {
+            val text = call.receiveText()
+            call.respondText(text)
         }
     }
 

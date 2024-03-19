@@ -65,8 +65,8 @@ class Filters(val objectMapper: ObjectMapper) {
                 headers = exchange.response.headers.deepCopy()
             )
 
-            // remove headers starting with X-TG
-            exchange.response.headers.filter { it.key.startsWith("X-TG") }
+            // remove headers starting with X-CompanyName
+            exchange.response.headers.filter { it.key.startsWith("X-CompanyName") }
                 .forEach {
                     exchange.response.headers.remove(it.key)
                 }
