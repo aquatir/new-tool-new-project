@@ -24,7 +24,7 @@ curl -v localhost:8080/backend/header
 
 With status. 403 could be any status code.
 ```
-curl -v localhost:8080/backend/status?status=403
+curl -v "localhost:8080/backend/status?status=403"
 ```
 
 Post body, will return whatever you post if it's a JSON
