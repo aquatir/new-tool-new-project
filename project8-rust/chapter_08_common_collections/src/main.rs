@@ -112,7 +112,7 @@ fn main() {
     scores.entry(String::from("Blue")).or_insert(100);
     println!("value of scores is '{:?}'", scores);
 
-    // another usa case for entry => .or_insert is to craete a default value in the hashmap if it does not exist
+    // another usa case for entry => .or_insert is to create a default value in the hashmap if it does not exist
     let text = "hello world wonderful world";
     let mut map = HashMap::new();
     for word in text.split_whitespace() {
