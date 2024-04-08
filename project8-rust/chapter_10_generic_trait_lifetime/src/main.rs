@@ -46,6 +46,9 @@ fn main() {
     println!("news: {}", news.summarize());
     println!("tweet: {}", tweet.summarize());
     println!("some_struct: {}", some_struct.summarize());
+
+    notify(&tweet);
+    notify(&news);
 }
 
 // Struct with 2 generic parameters
@@ -60,7 +63,35 @@ struct Point<X1, Y1> {
 struct SomeStruct;
 
 // "No" implementation => uses a default implementation
-impl Summary for SomeStruct {}
+impl Summary for SomeStruct {
+    fn summarize_author(&self) -> String {
+        String::from("no author")
+    }
+}
+
+// Function accepting anything that implements a Summary trait
+pub fn notify(item: &impl Summary) {
+    println!("Breaking news! {}", item.summarize());
+}
+
+// Above is a synthetic sugar over a trait bound form
+// pub fn notify<T: Summary>(item: &T) {
+//     println!("Breaking news! {}", item.summarize());
+// }
+
+// you can also require more than one trait with a + sign
+// pub fn notify(item: &(impl Summary + Display)) {
+// OR
+// pub fn notify<T: Summary + Display>(item: &T) {
+
+// there is also a short for multi-trait argument, e.g. instead of this
+// fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {
+// you can write
+// fn some_function<T, U>(t: &T, u: &U) -> i32
+// where
+//     T: Display + Clone,
+//     U: Clone + Debug,
+// {
 
 impl<X1, Y1> Point<X1, Y1> {
     fn mixup<X2, Y2>(self, other: Point<X2, Y2>) -> Point<X1, Y2> {
