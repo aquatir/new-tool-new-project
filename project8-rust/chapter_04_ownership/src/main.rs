@@ -34,7 +34,7 @@ fn main() {
     // but m is valid now due to ownership
     println!("m value is {m}");
 
-    // the perhaps better way is to pass b -reference instead of pass by value
+    // the perhaps better way is to pass by-reference instead of pass by value
     // this way the ownership doesn't change, because you are simply passing in a reference, not the actual value
     // the act of creating a reference is called "borrowing" in Rust
     let s = String::from("hello");
