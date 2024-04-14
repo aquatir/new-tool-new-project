@@ -1,8 +1,8 @@
 mod lib;
 
-use std::{env, process};
+use crate::lib::{run, Config};
 use std::error::Error;
-use crate::lib::{Config, run};
+use std::{env, process};
 
 // run with 'cargo run -- searchstring poem.txt'
 fn main() {
@@ -20,6 +20,3 @@ fn main() {
         process::exit(1);
     }
 }
-
-
-
