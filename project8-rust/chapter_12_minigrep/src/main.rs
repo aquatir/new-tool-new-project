@@ -1,8 +1,5 @@
-mod lib;
-
-use crate::lib::{run, Config};
-use std::error::Error;
 use std::{env, process};
+use chapter_12_minigrep::{Config, run};
 
 // run with 'cargo run -- searchstring poem.txt'
 fn main() {
