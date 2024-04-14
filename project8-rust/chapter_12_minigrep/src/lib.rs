@@ -1,14 +1,15 @@
+use std::{env, fs};
 use std::error::Error;
-use std::fs;
 
 pub struct Config {
     pub query: String,
     pub file_path: String,
+    pub ignore_case: bool,
 }
 
 impl Config {
     pub fn build(args: &[String]) -> Result<Config, String> {
-        if args.len() != 3 {
+        if args.len() < 3 {
             return Err(format!(
                 "Error. Must be invoked with 2 arguments, for example \n cargo run -- searchstring example-filename.txt \nGot {} arguments instead",
                 args.len() - 1
@@ -18,19 +19,25 @@ impl Config {
         let query = args[1].clone();
         let file_path = args[2].clone();
 
-        Ok(Config { query, file_path })
+        let ignore_case = env::var("IGNORE_CASE").is_ok();
+
+        Ok(Config { query, file_path, ignore_case })
     }
 }
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(&config.file_path)?;
 
-    let mut matches = 0;
-    for line in search(&config.query, &contents) {
+    let results = if config.ignore_case {
+        search_case_insensitive(&config.query, &contents)
+    } else {
+        search(&config.query, &contents)
+    };
+
+    println!("total matches: {}:", results.len());
+    for line in results {
         println!("{line}");
-        matches += 1;
     }
-    println!("total matches: {}", matches);
 
     Ok(())
 }
@@ -47,9 +54,9 @@ fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 
 fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let mut results = Vec::new();
-    let query = &query.to_string().to_lowercase();
+    let query = query.to_string().to_lowercase();
     for line in contents.lines() {
-        if line.to_lowercase().contains(query) {
+        if line.to_lowercase().contains(&query) {
             results.push(line)
         }
     }
@@ -58,7 +65,6 @@ fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 
 #[cfg(test)]
 mod tests {
-
     use super::*;
 
     #[test]
@@ -125,5 +131,45 @@ ddd
         assert_eq!(expected, search(query, contents));
     }
 
+    #[test]
+    fn search_case_insensitive_one_result() {
+        let query = "duct";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+        assert_eq!(vec!["safe, fast, productive."], search_case_insensitive(query, contents));
+    }
 
+    #[test]
+    fn search_case_insensitive_three_results() {
+        let query = "";
+        let contents = "\
+aaa
+aaa
+aaa";
+        assert_eq!(vec!["aaa", "aaa", "aaa"], search_case_insensitive(query, contents));
+    }
+
+    #[test]
+    fn search_case_insensitive_no_result() {
+        let query = "aaa";
+        let contents = "\
+bbb
+ccc
+ddd
+";
+        let expected: Vec<String> = vec![];
+        assert_eq!(expected, search_case_insensitive(query, contents));
+    }
+
+    #[test]
+    fn search_case_insensitive_matches_all_cases() {
+        let query = "aaa";
+        let contents = "\
+aaa
+AAA
+aAa";
+        assert_eq!(vec!["aaa", "AAA", "aAa"], search_case_insensitive(query, contents));
+    }
 }
