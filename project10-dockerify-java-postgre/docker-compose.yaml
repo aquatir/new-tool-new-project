@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:17.4
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  site:
+    image: kotlin-javalin-app:latest
+    ports:
+      - "7070:7070"
