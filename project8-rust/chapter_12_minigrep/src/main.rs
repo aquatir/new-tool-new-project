@@ -1,10 +1,14 @@
 use std::{env, process};
 use chapter_12_minigrep::{Config, run};
 
-// run with 'cargo run -- searchstring poem.txt'
+
+/// A simple search program. Run with
+/// ```
+/// cargo run -- searchstring poem.txt
+/// ```
+/// Set env variable `IGNORE_CASE` to any value for case-insensitive search
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    let config = Config::build(&args).unwrap_or_else(|err| {
+    let config = Config::build(env::args()).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {err}");
         process::exit(1)
     });

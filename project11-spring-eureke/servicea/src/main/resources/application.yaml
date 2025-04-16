@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: servicea
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "info,health"
+  info:
+    env:
+      enabled: true
+    git:
+      enabled: true
+    os:
+      enabled: true
+    process:
+      enabled: true
+
+info:
+  app:
+    name: "${spring.application.name}"
+    description: "This is the Service A application"
+    version: "1.0.0"
+  developer:
+    name: "John Doe"
+    email: "john.doe@example.com"
