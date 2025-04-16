@@ -5,8 +5,8 @@ server:
   port: 8761
 eureka:
   client:
-    register-with-eureka: false  # don't register the registry itself with Eureke
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
 logging:
   level:
     com.netflix.eureka: OFF
