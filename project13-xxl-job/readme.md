@@ -21,3 +21,4 @@ spring.datasource.password=root_pwd
 - Now go to `xxl-job/xxl-job-admin` and build a docker image with `docker build -t xxl-job-admin .`
 - Finally, run `docker-compose up`, navigate to `localhost:8080/xxl-job-admin/` and input default login/pw pair `admin/123456`.
 
+With this you will have admin panel running, but you also need to run an executor...
