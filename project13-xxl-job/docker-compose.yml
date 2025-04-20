@@ -1,0 +1,29 @@
+version: '2.1'
+
+services:
+
+  xxl-job-admin:
+    image: xxl-job-admin
+    container_name: xxl-job-admin
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    links:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      #      TZ: Asia/Shanghai
+      #     MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ROOT_PASSWORD: 'root_pwd'
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 1s
+      retries: 10
+    ports:
+      - "3306:3306"
